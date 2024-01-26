@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { RecipeItemComponent } from './recipe-item/recipe-item.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Recipe } from '../../shared/models/recipe.model';
+import { RecipeItemComponent } from './recipe-item/recipe-item.component';
 
 
 @Component({

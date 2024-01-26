@@ -1,1 +1,19 @@
-<p>recipe-list works!</p>
+<div class="row">
+    <div class="col-xs-12">
+      <button class="btn btn-success">New Recipe</button>
+    </div>
+  </div>
+  <hr />
+  @for (recipeEl of recipes; track $index) {
+  
+  <div class="row">
+  
+    <div class="col m-2 bg-light-hover">
+      <app-recipe-item
+        [recipe]="recipeEl"
+        (recipeSelected)="onRecipeSelected(recipeEl)"
+      ></app-recipe-item>
+    </div>
+  </div>
+  }
+  

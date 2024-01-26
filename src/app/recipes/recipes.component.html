@@ -1,1 +1,18 @@
-<p>recipes works!</p>
+<div class="row">
+    <div class="col-md-5">
+      <app-recipe-list
+        (recipeWasSelected)="recipeSelected = $event"
+        
+      ></app-recipe-list>
+    </div>
+    <div class="col-md-7">
+      @if (recipeSelected) {
+  
+      <app-recipe-details [recipe]="recipeSelected"></app-recipe-details>
+      }
+       @else {
+        <p>Please Select a Recipe!</p>
+      }
+    </div>
+  </div>
+  

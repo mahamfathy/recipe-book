@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Recipe } from '../../../shared/models/recipe.model';
-import { RecipeService } from '../../../services/recipe.service';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -13,11 +12,8 @@ import { RouterLink } from '@angular/router';
 export class RecipeItemComponent implements OnInit {
   @Input() recipe!: Recipe;
 
-  constructor(private recipeService:RecipeService) {}
   ngOnInit(): void {}
 
-onSelected(){
-  this.recipeService.recipeSelected.emit(this.recipe)
-}
+
 
 }

@@ -10,6 +10,7 @@ export class RecipeService {
   recipeSelected = new EventEmitter<Recipe>();
   private recipes: Recipe[] = [
     new Recipe(
+      1,
       'Tasty Schnitzel',
       'A super-tasty Schnitzel-just awesome!',
       'https://upload.wikimedia.org/wikipedia/commons/7/72/Schnitzel.JPG',
@@ -19,6 +20,7 @@ export class RecipeService {
     ]
     ),
     new Recipe(
+      2,
       'Big Burger Fat',
       'What else you need to say?',
       'https://upload.wikimedia.org/wikipedia/commons/b/be/Burger_King_Angus_Bacon_%26_Cheese_Steak_Burger.jpg',

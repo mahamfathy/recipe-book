@@ -36,7 +36,9 @@
           >
             {{ editMode ? "Update" : "Add" }}
           </button>
-          <button type="button" class="m-1 btn btn-danger">Delete</button>
+          @if (editMode) {
+          <button type="button" class="m-1 btn btn-danger" (click)="onDelete()">Delete</button>
+        }
           <button type="button" class="m-1 btn btn-primary" (click)="onClear()">Clear</button>
         </div>
       </div>

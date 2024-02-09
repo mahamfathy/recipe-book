@@ -2,12 +2,11 @@ import {
   Component,
   ViewChild,
   OnInit,
-  ElementRef,
   OnDestroy,
 } from '@angular/core';
 import { Ingredient } from '../../shared/models/ingredients.models';
 import { ShoppingListService } from '../../services/shopping-list.service';
-import { FormControl, FormsModule, NgForm } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -50,6 +49,10 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     }
     this.editMode = false;
     form.reset();
+  }
+  onClear(){
+    this.shoppingForm.reset()
+    this.editMode=false
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

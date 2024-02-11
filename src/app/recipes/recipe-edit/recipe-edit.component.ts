@@ -9,7 +9,6 @@ import {
 import { ActivatedRoute, Params } from '@angular/router';
 import { RecipeService } from '../../services/recipe.service';
 import { CommonModule } from '@angular/common';
-import { Recipe } from '../../shared/models/recipe.model';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -34,7 +33,7 @@ export class RecipeEditComponent implements OnInit {
     });
   }
   onSubmit() {
-    // we can skip this cause reactive form stores the data 
+    // we can skip this cause reactive form stores the data
     // const newRecipe = new Recipe(
     //   this.recipeForm.value['name'],
     //   this.recipeForm.value['description'],
@@ -43,9 +42,8 @@ export class RecipeEditComponent implements OnInit {
     // );
     if (this.editMode) {
       this.recipeService.updateRecipe(this.id, this.recipeForm.value);
-    }else{
+    } else {
       this.recipeService.addRecipe(this.recipeForm.value);
-
     }
     this.recipeForm.reset();
   }

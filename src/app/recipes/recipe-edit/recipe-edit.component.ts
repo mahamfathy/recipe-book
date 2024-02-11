@@ -47,10 +47,10 @@ export class RecipeEditComponent implements OnInit {
       this.recipeService.addRecipe(this.recipeForm.value);
     }
     // this.recipeForm.reset();
-    this.onCancel()
+    this.onCancel();
   }
-  onCancel(){
- this.router.navigate(['../'],{relativeTo:this.route})
+  onCancel() {
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
   onAddIngredients() {
     (<FormArray>this.recipeForm.get('ingredients')).push(

@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RecipeService } from '../../services/recipe.service';
 import { CommonModule } from '@angular/common';
 
@@ -23,7 +23,8 @@ export class RecipeEditComponent implements OnInit {
   recipeForm!: FormGroup;
   constructor(
     private route: ActivatedRoute,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private router: Router
   ) {}
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -45,7 +46,11 @@ export class RecipeEditComponent implements OnInit {
     } else {
       this.recipeService.addRecipe(this.recipeForm.value);
     }
-    this.recipeForm.reset();
+    // this.recipeForm.reset();
+    this.onCancel()
+  }
+  onCancel(){
+ this.router.navigate(['../'],{relativeTo:this.route})
   }
   onAddIngredients() {
     (<FormArray>this.recipeForm.get('ingredients')).push(

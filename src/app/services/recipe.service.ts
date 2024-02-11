@@ -13,13 +13,13 @@ export class RecipeService {
     new Recipe(
       'Tasty Schnitzel',
       'A super-tasty Schnitzel-just awesome!',
-      'https://upload.wikimedia.org/wikipedia/commons/7/72/Schnitzel.JPG',
+      'https://tse2.mm.bing.net/th?id=OIP.3WPb79pG73o6KJpXmLtaegHaFc&pid=Api&P=0&h=220',
       [new Ingredient('Meat', 1), new Ingredient('French fries', 20)]
     ),
     new Recipe(
       'Big Burger Fat',
       'What else you need to say?',
-      'https://upload.wikimedia.org/wikipedia/commons/b/be/Burger_King_Angus_Bacon_%26_Cheese_Steak_Burger.jpg',
+      'https://tse2.mm.bing.net/th?id=OIP.GQqW9JvGbj0BAkbkIiIeHQHaE7&pid=Api&P=0&h=220',
       [new Ingredient('Buns', 2), new Ingredient('Meat', 1)]
     ),
   ];

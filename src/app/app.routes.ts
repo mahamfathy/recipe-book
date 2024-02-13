@@ -4,6 +4,7 @@ import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
 import { RecipeDetailComponent } from './recipes/recipe-details/recipe-details.component';
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
+import { AuthComponent } from './auth/auth.component';
 // import { RecipesResolverService } from './services/recipes-resolver.service';
 
 export const routes: Routes = [
@@ -26,5 +27,6 @@ export const routes: Routes = [
     ],
   },
   { path: 'shopping-list', component: ShoppingListComponent },
-  { path: '**', redirectTo: 'recipes', pathMatch: 'full' },
+  { path: 'auth', component:AuthComponent},
+  // { path: '**', redirectTo: 'recipes', pathMatch: 'full' },
 ];

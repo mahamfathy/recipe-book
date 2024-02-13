@@ -28,5 +28,5 @@ export const routes: Routes = [
   },
   { path: 'shopping-list', component: ShoppingListComponent },
   { path: 'auth', component:AuthComponent},
-  // { path: '**', redirectTo: 'recipes', pathMatch: 'full' },
+  { path: '**', redirectTo: 'recipes', pathMatch: 'full' },
 ];

@@ -4,15 +4,14 @@
     </div>
   </div>
   <hr />
-  @for (recipeEl of recipes; track $index) {
   
-  <div class="row">
+  <div class="row" *ngFor="let recipeEl of recipes;let i = index ">
   
     <div class="col m-2 bg-light-hover">
       <app-recipe-item
         [recipe]="recipeEl"
+        [id]="i"
         ></app-recipe-item>
     </div>
   </div>
-  }
   

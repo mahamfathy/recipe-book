@@ -1,9 +1,16 @@
 <div class="row">
   <div class="col-xs-12 col-md-6 col-md-offset-3">
-    <form>
+    <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" name="email" id="email" class="form-control" />
+        <input
+         type="email" 
+        name="email"
+         id="email" 
+         class="form-control"
+         email
+         ngModel 
+         required/>
       </div>
       <div class="form-group">
         <label for="password">Password</label>
@@ -12,10 +19,16 @@
           name="password"
           id="password"
           class="form-control"
+          required
+          minlength="6"
+          ngModel
         />
       </div>
       <div class="mt-3">
-        <button class="btn btn-primary" type="submit">
+        <button
+        [disabled]="authForm.invalid"
+         class="btn btn-primary"
+          type="submit">
           {{ isLoginMode ? "Login" : "Sign Up" }}
         </button>
         |

@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Recipe } from './recipe.model';
+// import { Recipe } from './recipe.model';
 import { RecipeService } from '../../services/recipe.service';
 @Injectable({
   providedIn: 'root',
 })
-export class DataStorageService {
+export class DataStorageService{
   constructor(private http: HttpClient, private recipeService: RecipeService) {}
   // storeData(recipes:Recipe[]){ or i can use another way to aviod arguments
   storeData() {

@@ -15,7 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
     HeaderComponent,
     RecipesComponent,
     ShoppingListComponent,
-    HttpClientModule,
+    HttpClientModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',

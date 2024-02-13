@@ -5,7 +5,7 @@ import {
 } from '@angular/router';
 import { Recipe } from '../shared/models/recipe.model';
 import { Injectable } from '@angular/core';
-import { DataStorageService } from '../shared/models/data-storage.service';
+import { DataStorageService } from './data-storage.service';
 import { Observable } from 'rxjs';
 import { RecipeService } from './recipe.service';
 @Injectable()

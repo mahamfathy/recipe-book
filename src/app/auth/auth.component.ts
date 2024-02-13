@@ -2,16 +2,18 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { AuthService } from './auth.service';
+import { LoadingSpinnerComponent } from '../shared/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-auth',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LoadingSpinnerComponent],
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.css',
 })
 export class AuthComponent {
   isLoginMode = true;
+  isLoading = false;
   constructor(private authService: AuthService) {}
   onSwitchMode() {
     this.isLoginMode = !this.isLoginMode;
@@ -22,11 +24,18 @@ export class AuthComponent {
     }
     const email = authForm.value.email;
     const password = authForm.value.password;
+    this.isLoading = true;
     if (this.isLoginMode) {
     } else {
-      this.authService.signUp(email, password).subscribe((resData) => {
-        console.log(resData)
-      },error=>console.error(error)
+      this.authService.signUp(email, password).subscribe(
+        (resData) => {
+          console.log(resData);
+          this.isLoading = false;
+        },
+        (error) => {
+          console.error(error);
+          this.isLoading = false;
+        }
       );
     }
     authForm.reset();

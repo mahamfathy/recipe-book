@@ -14,5 +14,7 @@ export class HeaderComponent {
   onSaveData() {
     this.dataStorageService.storeData();
   }
-
+onFetchData(){
+  this.dataStorageService.fetchData()
+}
 }

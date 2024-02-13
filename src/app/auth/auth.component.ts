@@ -5,6 +5,7 @@ import { AuthService } from '../services/auth.service';
 import { LoadingSpinnerComponent } from '../shared/loading-spinner/loading-spinner.component';
 import { EMPTY, Observable } from 'rxjs';
 import { AuthResponseData } from '../shared/models/auth-response-data.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -18,7 +19,7 @@ export class AuthComponent {
   isLoading = false;
   error?: string | null;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
   onSwitchMode() {
     this.isLoginMode = !this.isLoginMode;
   }
@@ -28,7 +29,7 @@ export class AuthComponent {
     }
     const email = authForm.value.email;
     const password = authForm.value.password;
-    let authObs: Observable<AuthResponseData> ;
+    let authObs: Observable<AuthResponseData>;
 
     this.isLoading = true;
     if (this.isLoginMode) {
@@ -40,6 +41,8 @@ export class AuthComponent {
     authObs.subscribe(
       (resData) => {
         console.log(resData);
+        this.router.navigate(['/recipes']);
+
         this.isLoading = false;
       },
       (errorMessage) => {

@@ -45,15 +45,25 @@
       id="navbarsExample10"
     >
       <ul class="navbar-nav">
+        @if (isAuthenticated) {
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" routerLink="recipes">Recipes</a>
         </li>
+        } @if (!isAuthenticated) {
+
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" routerLink="auth">Authenticate</a>
         </li>
+        }
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" routerLink="shopping-list">Shopping</a>
         </li>
+        @if (isAuthenticated) {
+
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" routerLink="" style="cursor: pointer">Logout</a>
+        </li>
+
         <li class="nav-item dropdown">
           <a
             class="nav-link dropdown-toggle"
@@ -81,6 +91,7 @@
             </li>
           </ul>
         </li>
+        }
       </ul>
     </div>
   </div>

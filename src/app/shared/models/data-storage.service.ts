@@ -27,8 +27,8 @@ export class DataStorageService {
       .get(
         'https://ng-recipe-book-ef4a9-default-rtdb.firebaseio.com/recipes.json'
       )
-      .subscribe((response) => {
-        console.log(response);
+      .subscribe((recipes) => {
+        console.log(recipes);
       });
   }
 }

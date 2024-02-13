@@ -27,6 +27,10 @@ export class RecipeService {
   getRecipes() {
     return this.recipes.slice();
   }
+  setRecipe(recipes: Recipe[]) {
+    this.recipes = recipes;
+    this.recipeChanged.next(this.recipes.slice());
+  }
   getRecipesById(id: number) {
     return this.recipes[id];
   }
@@ -40,10 +44,9 @@ export class RecipeService {
   updateRecipe(index: number, newRecipe: Recipe) {
     this.recipes[index] = newRecipe;
     this.recipeChanged.next(this.recipes.slice());
-
   }
-  deleteRecipe(index:number){
-    this.recipes.splice(index,1);
-    this.recipeChanged.next(this.recipes.slice())
+  deleteRecipe(index: number) {
+    this.recipes.splice(index, 1);
+    this.recipeChanged.next(this.recipes.slice());
   }
 }

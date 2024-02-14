@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class AuthService {
   user = new BehaviorSubject<User>(null!);
   // token!: string | null; or i can use behaviorSubject
-  constructor(private http: HttpClient,private router:Router) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   signUp(email: string, password: string) {
     return this.http
@@ -59,6 +59,23 @@ export class AuthService {
       );
   }
 
+  autoLogin() {
+    const userDataString: any = localStorage.getItem('userData');
+    const userData: User = JSON.parse(userDataString);
+    if (!userData) {
+      return;
+    }
+    const loadedUser = new User(
+      userData.email,
+      userData.id,
+      userData.token,
+      new Date(userData.tokenExpirationDate)
+    );
+    if (loadedUser.token) {
+      this.user.next(loadedUser)
+    }
+  }
+
   private handleError(errorRes: HttpErrorResponse) {
     let errorMessage: string = 'An unknown error occured!';
 
@@ -87,10 +104,10 @@ export class AuthService {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
     const user = new User(email, userId, token, expirationDate);
     this.user.next(user);
+    localStorage.setItem('userData', JSON.stringify(user));
   }
-logout(){
-  this.user.next(null!)
-  this.router.navigate(['/auth'])
-}
-
+  logout() {
+    this.user.next(null!);
+    this.router.navigate(['/auth']);
+  }
 }

@@ -2,7 +2,7 @@ export class User {
   constructor(
     public email: string,
     public id: string,
-    private _token: string,
+    private _token: string | null,
     private _tokenExpirationDate: Date
   ) {}
 
@@ -11,5 +11,8 @@ export class User {
       return null;
     }
     return this._token;
+  }
+  get tokenExpirationDate(){
+    return this._tokenExpirationDate
   }
 }

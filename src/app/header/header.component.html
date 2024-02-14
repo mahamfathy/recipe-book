@@ -60,7 +60,7 @@
         </li>
         @if (isAuthenticated) {
 
-        <li class="nav-item" routerLinkActive="active">
+        <li class="nav-item" routerLinkActive="active" (click)="onLogout()">
           <a class="nav-link" routerLink="" style="cursor: pointer">Logout</a>
         </li>
 

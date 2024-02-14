@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RecipeService } from './recipe.service';
 import { Recipe } from '../shared/models/recipe.model';
@@ -29,31 +29,23 @@ export class DataStorageService {
       });
   }
   fetchData() {
-    return this.authService.user.pipe(
-      take(1),
-      exhaustMap((user) => {
         return this.http.get<Recipe[]>(
-          'https://ng-recipe-book-ef4a9-default-rtdb.firebaseio.com/recipes.json',
-          {
-            params: new HttpParams().set('auth', user.token as string),
-          }
-        );
-      }),
-      map((recipes) => {
-        return recipes.map((recipe) => {
-          return {
-            ...recipe,
-            ingredients: recipe.ingredients ? recipe.ingredients : [],
-          };
-        });
-      }),
-      tap((recipes) => {
-        this.recipeService.setRecipe(recipes);
-      })
-    );
+          'https://ng-recipe-book-ef4a9-default-rtdb.firebaseio.com/recipes.json'
+        ).pipe( map((recipes) => {
+          return recipes.map((recipe) => {
+            return {
+              ...recipe,
+              ingredients: recipe.ingredients ? recipe.ingredients : [],
+            };
+          });
+        }),
+        tap((recipes) => {
+          this.recipeService.setRecipe(recipes);
+        }))  } 
+    
     // You can subscribe in another service if needed
     // .subscribe((recipes) => {
     //   // console.log(recipes);
     // });
   }
-}
+

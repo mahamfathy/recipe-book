@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { LoadingSpinnerComponent } from '../shared/loading-spinner/loading-spinner.component';
-import { EMPTY, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AuthResponseData } from '../shared/models/auth-response-data.model';
 import { Router } from '@angular/router';
 
@@ -41,15 +41,17 @@ export class AuthComponent {
     authObs.subscribe(
       (resData) => {
         console.log(resData);
+        this.isLoading = false;
+
         this.router.navigate(['/recipes']);
 
-        this.isLoading = false;
       },
       (errorMessage) => {
         console.error(errorMessage);
+        this.isLoading = false;
+
         this.error = errorMessage;
 
-        this.isLoading = false;
       }
     );
     authForm.reset();

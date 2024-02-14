@@ -5,8 +5,8 @@ import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.compon
 import { RecipeDetailComponent } from './recipes/recipe-details/recipe-details.component';
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 import { AuthComponent } from './auth/auth.component';
-import { RecipesResolverService } from './services/recipes-resolver.service';
 import { authGuard } from './services/auth.guard';
+import { recipesResolver } from './recipes.resolver';
 
 export const routes: Routes = [
   {
@@ -19,12 +19,12 @@ export const routes: Routes = [
       {
         path: ':id',
         component: RecipeDetailComponent,
-        // resolve: [RecipesResolverService],
+        // resolve: [recipesResolver],
       },
       {
         path: ':id/edit',
         component: RecipeEditComponent,
-        // resolve: [RecipesResolverService],
+        // resolve : [recipesResolver]
       },
     ],
   },

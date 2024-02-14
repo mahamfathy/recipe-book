@@ -60,19 +60,23 @@ export class AuthService {
   }
 
   autoLogin() {
-    const userDataString: any = localStorage.getItem('userData');
-    const userData: User = JSON.parse(userDataString);
+    const userData: {
+      email: string;
+      id: string;
+      _token: string;
+      _tokenExpirationDate: Date;
+    } = JSON.parse(localStorage.getItem('userData')!);
     if (!userData) {
       return;
     }
     const loadedUser = new User(
       userData.email,
       userData.id,
-      userData.token,
-      new Date(userData.tokenExpirationDate)
+      userData._token,
+      new Date(userData._tokenExpirationDate)
     );
     if (loadedUser.token) {
-      this.user.next(loadedUser)
+      this.user.next(loadedUser);
     }
   }
 

@@ -6,11 +6,12 @@ import { LoadingSpinnerComponent } from '../shared/loading-spinner/loading-spinn
 import { Observable } from 'rxjs';
 import { AuthResponseData } from '../shared/models/auth-response-data.model';
 import { Router } from '@angular/router';
+import { AlertComponent } from '../shared/alert/alert.component';
 
 @Component({
   selector: 'app-auth',
   standalone: true,
-  imports: [CommonModule, FormsModule, LoadingSpinnerComponent],
+  imports: [CommonModule, FormsModule, LoadingSpinnerComponent,AlertComponent],
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css'],
 })

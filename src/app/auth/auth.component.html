@@ -4,7 +4,7 @@
     <!-- <div class="alert alert-danger mt-3">
       <h3>{{ error }}</h3>
     </div> -->
-    <app-alert [message]="error"></app-alert>
+    <app-alert [message]="error" (close)="onHandleError()"></app-alert>
     } @if (isLoading) {
     <div style="text-align: center">
       <app-loading-spinner></app-loading-spinner>

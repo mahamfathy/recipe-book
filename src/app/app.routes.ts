@@ -6,9 +6,11 @@ import { RecipeDetailComponent } from './recipes/recipe-details/recipe-details.c
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 import { AuthComponent } from './auth/auth.component';
 import { authGuard } from './services/auth.guard';
-import { recipesResolver } from './recipes.resolver';
+import { recipesResolver } from './services/recipes.resolver';
 
 export const routes: Routes = [
+  { path: '', redirectTo: 'recipes', pathMatch: 'full' },
+
   {
     path: 'recipes',
     component: RecipesComponent,
@@ -19,16 +21,15 @@ export const routes: Routes = [
       {
         path: ':id',
         component: RecipeDetailComponent,
-        // resolve: [recipesResolver],
+        resolve: [recipesResolver],
       },
       {
         path: ':id/edit',
         component: RecipeEditComponent,
-        // resolve : [recipesResolver]
+        resolve : [recipesResolver]
       },
     ],
   },
   { path: 'shopping-list', component: ShoppingListComponent },
   { path: 'auth', component:AuthComponent},
-  // { path: '**', redirectTo: 'recipes', pathMatch: 'full' },
 ];

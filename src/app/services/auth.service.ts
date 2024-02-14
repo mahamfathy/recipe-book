@@ -4,15 +4,15 @@ import { AuthResponseData } from '../shared/models/auth-response-data.model';
 import { catchError, tap } from 'rxjs/operators';
 import { BehaviorSubject, throwError } from 'rxjs';
 import { User } from '../shared/models/user.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  
   user = new BehaviorSubject<User>(null!);
   // token!: string | null; or i can use behaviorSubject
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private router:Router) {}
 
   signUp(email: string, password: string) {
     return this.http
@@ -58,6 +58,7 @@ export class AuthService {
         })
       );
   }
+
   private handleError(errorRes: HttpErrorResponse) {
     let errorMessage: string = 'An unknown error occured!';
 
@@ -87,4 +88,9 @@ export class AuthService {
     const user = new User(email, userId, token, expirationDate);
     this.user.next(user);
   }
+logout(){
+  this.user.next(null!)
+  this.router.navigate(['/auth'])
+}
+
 }

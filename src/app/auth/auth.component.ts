@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ViewContainerRef } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { LoadingSpinnerComponent } from '../shared/loading-spinner/loading-spinner.component';
@@ -11,7 +11,7 @@ import { AlertComponent } from '../shared/alert/alert.component';
 @Component({
   selector: 'app-auth',
   standalone: true,
-  imports: [CommonModule, FormsModule, LoadingSpinnerComponent,AlertComponent],
+  imports: [CommonModule, FormsModule, LoadingSpinnerComponent, AlertComponent],
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css'],
 })
@@ -20,7 +20,11 @@ export class AuthComponent {
   isLoading = false;
   error?: string | null;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private viewContentRef: ViewContainerRef
+  ) {}
   onSwitchMode() {
     this.isLoginMode = !this.isLoginMode;
   }
@@ -45,19 +49,24 @@ export class AuthComponent {
         this.isLoading = false;
 
         this.router.navigate(['/recipes']);
-
       },
       (errorMessage) => {
         console.error(errorMessage);
         this.isLoading = false;
-
+        // this.showErrorAlert(errorMessage);
         this.error = errorMessage;
-
       }
     );
     authForm.reset();
   }
-  onHandleError(){
-    this.error=null
+  // this to make it as an alert modal
+  onHandleError() {
+    this.error = null;
   }
+  // private showErrorAlert(message: string) {
+  //   // this won't work cause it's wrong in angular
+  //   // const alertComp = new AlertComponent()
+  //   const alertFactory = this.viewContentRef.createComponent(AlertComponent);
+  //   return alertFactory;
+  // }
 }

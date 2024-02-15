@@ -1,9 +1,11 @@
 <div class="row">
   <div class="col-xs-12 col-md-6 col-md-offset-3">
     @if (error) {
+      <!--  this to make it in without modal  -->
     <!-- <div class="alert alert-danger mt-3">
       <h3>{{ error }}</h3>
     </div> -->
+    <!-- this to make it as ngif -->
     <app-alert [message]="error" (close)="onHandleError()"></app-alert>
     } @if (isLoading) {
     <div style="text-align: center">

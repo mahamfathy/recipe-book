@@ -1,10 +1,16 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { Ingredient } from '../shared/models/ingredients.models';
-import { ADD_INGREDIENT, ADD_INGREDIENTS } from './shopping-list.actions';
+import {
+  ADD_INGREDIENT,
+  ADD_INGREDIENTS,
+  DELETE_INGREDIENT,
+  UPDATE_INGREDIENT,
+} from './shopping-list.actions';
 // import * as  ShoppingListAction from './shopping-list.actions';
 const initialState = {
   ingredients: [new Ingredient('Apples', 5), new Ingredient('Tomato', 10)],
 };
+
 export const shoppingListReducer = createReducer(
   initialState,
   //   on(ShoppingListAction.ADD_INGREDIENT,(state ,{ingredients})=>({...state,ingredients: [...state.ingredients, ...ingredients]}) )
@@ -16,7 +22,21 @@ export const shoppingListReducer = createReducer(
   on(ADD_INGREDIENTS, (state, { ingredients }) => ({
     ...state,
     ingredients: [...state.ingredients, ...ingredients],
-  }))
+  })),
+  on(UPDATE_INGREDIENT, (state, { index, ingredient }) => ({
+    ...state,
+    ingredients: state.ingredients.map((oldIngredient, i) =>
+      i === index ? ingredient : oldIngredient
+    ),
+  })),
+  on(DELETE_INGREDIENT,(state,ingredient)=>(
+    {
+      ...state,
+      ingredients: state.ingredients.filter((_,i)=>
+      i !== ingredient.index 
+      )
+    }
+  ))
 );
 // export function shoppingListReducer(state = initialState, action : Action) {
 //   switch (action.type) {

@@ -40,10 +40,11 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     const value = form.value;
     const newIngredient = new Ingredient(value.name, value.amount);
     if (this.editMode) {
-      this.shoppingService.updateIngredients(
-        this.editedItemIndex,
-        newIngredient
-      );
+      // this.shoppingService.updateIngredients(
+      //   this.editedItemIndex,
+      //   newIngredient
+      // );
+      
     } else {
       // this.shoppingService.ingredientAdded(newIngredient);
       this.store.dispatch(ADD_INGREDIENT({ingredients:[newIngredient]}))

@@ -4,17 +4,16 @@ import {
   ActionReducerMap,
   createFeatureSelector,
   createSelector,
-  MetaReducer
+  MetaReducer,
 } from '@ngrx/store';
-import { shoppingListReducer } from '../store/shopping-list.reducers';
+import { shoppingListReducer, State } from '../store/shopping-list.reducers';
 
-export interface State {
-
+export interface AppState {
+  shoppingList: State;
 }
 
-export const reducers: ActionReducerMap<State> = {
-shoppingList:shoppingListReducer
+export const reducers: ActionReducerMap<AppState> = {
+  shoppingList: shoppingListReducer,
 };
 
-
-export const metaReducers: MetaReducer<State>[] = isDevMode() ? [] : [];
+export const metaReducers: MetaReducer<AppState>[] = isDevMode() ? [] : [];

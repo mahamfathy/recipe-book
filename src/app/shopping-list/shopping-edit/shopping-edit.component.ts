@@ -9,6 +9,8 @@ import {
   DELETE_INGREDIENT,
   UPDATE_INGREDIENT,
 } from '../../store/shopping-list.actions';
+import { Observable } from 'rxjs-compat';
+import { State } from '../../store/shopping-list.reducers';
 
 @Component({
   selector: 'app-shopping-edit',
@@ -23,9 +25,10 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   editMode = false;
   editedItemIndex!: number;
   editedItem!: Ingredient;
+  startEditing? :Observable<number>
   constructor(
     private shoppingService: ShoppingListService,
-    private store: Store<{ shoppinglist: Ingredient[] }>
+    private store: Store<State>
   ) {}
   ngOnInit(): void {
     this.subscription = this.shoppingService.startEditing.subscribe(

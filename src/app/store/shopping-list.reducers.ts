@@ -7,8 +7,16 @@ import {
   UPDATE_INGREDIENT,
 } from './shopping-list.actions';
 // import * as  ShoppingListAction from './shopping-list.actions';
-const initialState = {
+
+export interface State {
+  ingredients: Ingredient[];
+  editedIngredient: Ingredient;
+  edittedIngredientIndex: number;
+}
+const initialState: State = {
   ingredients: [new Ingredient('Apples', 5), new Ingredient('Tomato', 10)],
+  editedIngredient: null!,
+  edittedIngredientIndex: -1,
 };
 
 export const shoppingListReducer = createReducer(
@@ -29,9 +37,9 @@ export const shoppingListReducer = createReducer(
       i === index ? ingredient : oldIngredient
     ),
   })),
-  on(DELETE_INGREDIENT, (state, ingredient) => ({
+  on(DELETE_INGREDIENT, (state, { index }) => ({
     ...state,
-    ingredients: state.ingredients.filter((_, i) => i !== ingredient.index),
+    ingredients: state.ingredients.filter((_, i) => i !== index),
   }))
 );
 // export function shoppingListReducer(state = initialState, action : Action) {

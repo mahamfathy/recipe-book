@@ -4,6 +4,8 @@ import {
   ADD_INGREDIENT,
   ADD_INGREDIENTS,
   DELETE_INGREDIENT,
+  START_EDIT,
+  STOP_EDIT,
   UPDATE_INGREDIENT,
 } from './shopping-list.actions';
 // import * as  ShoppingListAction from './shopping-list.actions';
@@ -40,7 +42,13 @@ export const shoppingListReducer = createReducer(
   on(DELETE_INGREDIENT, (state, { index }) => ({
     ...state,
     ingredients: state.ingredients.filter((_, i) => i !== index),
-  }))
+  })),
+  on(START_EDIT,(state,{index})=>({
+    ...state,
+   edittedIngredientIndex: index,
+   editedIngredient: {...state.ingredients[index]}
+  })),
+  on(STOP_EDIT,(state=>({...state,editedIngredient:null!,edittedIngredientIndex:-1}) ))
 );
 // export function shoppingListReducer(state = initialState, action : Action) {
 //   switch (action.type) {

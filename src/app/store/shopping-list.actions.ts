@@ -18,6 +18,13 @@ export const DELETE_INGREDIENT = createAction(
   '[INGREDIENT] Delete Ingredient',
   props<{ index: number}>()
 );
+export const START_EDIT = createAction(
+  '[INGREDIENT] Start Edit',
+  props<{ index: number}>()
+);
+export const STOP_EDIT = createAction(
+  '[INGREDIENT] Stop Edit',
+);
 // export const ADD_INGREDIENT = 'INGREDIENT'
 // export class AddIngredient implements Action{
 //      readonly type: string= ADD_INGREDIENT;

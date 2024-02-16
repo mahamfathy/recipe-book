@@ -29,14 +29,10 @@ export const shoppingListReducer = createReducer(
       i === index ? ingredient : oldIngredient
     ),
   })),
-  on(DELETE_INGREDIENT,(state,ingredient)=>(
-    {
-      ...state,
-      ingredients: state.ingredients.filter((_,i)=>
-      i !== ingredient.index 
-      )
-    }
-  ))
+  on(DELETE_INGREDIENT, (state, ingredient) => ({
+    ...state,
+    ingredients: state.ingredients.filter((_, i) => i !== ingredient.index),
+  }))
 );
 // export function shoppingListReducer(state = initialState, action : Action) {
 //   switch (action.type) {

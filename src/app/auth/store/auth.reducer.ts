@@ -3,12 +3,10 @@
 import { createReducer, on } from '@ngrx/store';
 import { User } from '../../shared/models/user.model';
 import {
-  LOGIN_ACTION,
-  LOGIN_FAIL_ACTION,
+  AUTHENTICATE_FAIL_ACTION,
+  AUTHENTICATE_SUCCESS_ACTION,
   LOGIN_START_ACTION,
   LOGOUT_ACTION,
-  SIGNUP,
-  SIGNUP_ACTION,
   SIGNUP_START_ACTION,
 } from './auth.actions';
 
@@ -25,7 +23,7 @@ export interface AuthState {
 
 export const authReducer = createReducer(
   initialState,
-  on(LOGIN_ACTION, (state, { email, userId, token, expirationDate }) => {
+  on(AUTHENTICATE_SUCCESS_ACTION, (state, { email, userId, token, expirationDate }) => {
     const user = new User(email, userId, token, expirationDate);
     return { ...state, user, authError: null, loading: false };
   }),
@@ -33,20 +31,19 @@ export const authReducer = createReducer(
     return { ...state, user: null };
   }),
   on(LOGIN_START_ACTION, (state, action) => {
+    // state.loading=false
     {
       return { ...state, authError: null, loading: true };
     }
   }),
-  on(LOGIN_FAIL_ACTION, (state, { errorMessage }) => {
+  on(AUTHENTICATE_FAIL_ACTION, (state, { errorMessage }) => {
     return { ...state, user: null, authError: errorMessage, loading: false };
   }),
-  on(SIGNUP_ACTION, (state, { email, userId, token, expirationDate }) => {
-    const user = new User(email, userId, token, expirationDate);
-    return { ...state, user, authError: null, loading: false };
+  on(SIGNUP_START_ACTION, (state, { email,password }) => {
+   
+    return { ...state,  authError: null, loading: false };
   }),
-  on(SIGNUP_START_ACTION, (state, action) => {
-    return { ...state, authError: null, loading: true };
-  })
+
 );
 
 // export function authReducer(state = initialState, action: AuthActions):AuthState {

@@ -7,7 +7,7 @@ import { User } from '../shared/models/user.model';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../reducers';
-import { LOGIN_ACTION, LOGOUT_ACTION } from '../auth/store/auth.actions';
+import {  AUTHENTICATE_SUCCESS_ACTION, LOGOUT_ACTION } from '../auth/store/auth.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -85,7 +85,7 @@ export class AuthService {
     );
     if (loadedUser.token) {
       // this.user.next(loadedUser);
-      this.store.dispatch(LOGIN_ACTION({
+      this.store.dispatch(AUTHENTICATE_SUCCESS_ACTION({
           email: loadedUser.email,
           userId: loadedUser.id,
           token: loadedUser.token,
@@ -127,7 +127,8 @@ export class AuthService {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
     const user = new User(email, userId, token, expirationDate);
     // this.user.next(user);
-    this.store.dispatch(LOGIN_ACTION({
+    this.store.dispatch(AUTHENTICATE_SUCCESS_ACTION
+      ({
         email: email,
         userId: userId,
         token: token,

@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
-  LOGIN_ACTION,
-  LOGIN_FAIL,
-  LOGIN_FAIL_ACTION,
+  AUTHENTICATE_FAIL_ACTION,
+  AUTHENTICATE_SUCCESS_ACTION,
   LOGIN_START_ACTION,
   LOGOUT,
   SIGNUP_START_ACTION,
@@ -28,7 +27,7 @@ export class AuthEffects {
     expiresIn: number
   ) => {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
-    return LOGIN_ACTION({
+    return AUTHENTICATE_SUCCESS_ACTION({
       email: email,
       userId: userId,
       token: token,
@@ -39,7 +38,7 @@ export class AuthEffects {
     let errorMessage = 'An unknown error occured!';
 
     if (!errorRes.error || !errorRes.error.error) {
-      return of(LOGIN_FAIL_ACTION({ errorMessage }));
+      return of(AUTHENTICATE_FAIL_ACTION({ errorMessage }));
     }
     switch (errorRes.error.error.message) {
       case 'EMAIL_EXISTS':
@@ -52,7 +51,7 @@ export class AuthEffects {
         errorMessage = 'Invalid password, check again!';
         break;
     }
-    return of(LOGIN_FAIL_ACTION({ errorMessage }));
+    return of(AUTHENTICATE_FAIL_ACTION({ errorMessage }));
   };
   authLogin$ = createEffect(() =>
     this.actions$.pipe(
@@ -86,7 +85,7 @@ export class AuthEffects {
   authSuccess = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(LOGIN_ACTION),
+        ofType(AUTHENTICATE_SUCCESS_ACTION),
         tap(() => this.router.navigate(['']))
       ),
     { dispatch: false }

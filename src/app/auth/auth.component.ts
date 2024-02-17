@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewContainerRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { LoadingSpinnerComponent } from '../shared/loading-spinner/loading-spinner.component';
@@ -7,6 +7,9 @@ import { Observable } from 'rxjs';
 import { AuthResponseData } from '../shared/models/auth-response-data.model';
 import { Router } from '@angular/router';
 import { AlertComponent } from '../shared/alert/alert.component';
+import { Store } from '@ngrx/store';
+import { AppState } from '../reducers';
+import { LOGIN_START_ACTION } from './store/auth.actions';
 
 @Component({
   selector: 'app-auth',
@@ -15,16 +18,27 @@ import { AlertComponent } from '../shared/alert/alert.component';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css'],
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit, OnDestroy {
   isLoginMode = true;
   isLoading = false;
   error?: string | null;
 
   constructor(
     private authService: AuthService,
-    private router: Router,
-    private viewContentRef: ViewContainerRef
+    // private router: Router,
+    // private viewContentRef: ViewContainerRef,
+    private store: Store<AppState>
   ) {}
+
+  ngOnInit(): void {
+    this.store.select('auth').subscribe((authData) => {
+      this.isLoading = authData.loading;
+      this.error = authData.authError;
+      if (this.error) {
+        this.error = authData.authError
+      }
+    });
+  }
   onSwitchMode() {
     this.isLoginMode = !this.isLoginMode;
   }
@@ -38,25 +52,29 @@ export class AuthComponent {
 
     this.isLoading = true;
     if (this.isLoginMode) {
-      authObs = this.authService.login(email, password);
+      // authObs = this.authService.login(email, password);
+      this.store.dispatch(
+        LOGIN_START_ACTION({ email: email, password: password })
+      );
     } else {
       authObs = this.authService.signUp(email, password);
     }
-    //I can use it here not to repeat myself and make a clean code
-    authObs.subscribe(
-      (resData) => {
-        console.log(resData);
-        this.isLoading = false;
 
-        this.router.navigate(['/recipes']);
-      },
-      (errorMessage) => {
-        console.error(errorMessage);
-        this.isLoading = false;
-        // this.showErrorAlert(errorMessage);
-        this.error = errorMessage;
-      }
-    );
+    //I can use it here not to repeat myself and make a clean code
+    // authObs.subscribe(
+    //   (resData) => {
+    //     console.log(resData);
+    //     this.isLoading = false;
+
+    //     this.router.navigate(['/recipes']);
+    //   },
+    //   (errorMessage) => {
+    //     console.error(errorMessage);
+    //     this.isLoading = false;
+    //     // this.showErrorAlert(errorMessage);
+    //     this.error = errorMessage;
+    //   }
+    // );
     authForm.reset();
   }
   // this to make it as an alert modal
@@ -69,4 +87,6 @@ export class AuthComponent {
   //   const alertFactory = this.viewContentRef.createComponent(AlertComponent);
   //   return alertFactory;
   // }
+  
+  ngOnDestroy(): void {}
 }

@@ -13,7 +13,7 @@ import { authInterceptor } from './services/auth.interceptor';
 import { provideStore } from '@ngrx/store';
 import { reducers, metaReducers } from './reducers';
 import { provideEffects } from '@ngrx/effects';
-import { AppEffects } from './effects/app.effects';
+import { AuthEffects } from './auth/store/auth.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,6 +21,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authInterceptor])),
     RecipeService,
     provideStore(reducers, { metaReducers }),
-    provideEffects(AppEffects)
+    provideEffects(AuthEffects)
 ],
 };

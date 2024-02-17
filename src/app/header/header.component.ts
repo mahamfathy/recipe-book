@@ -3,6 +3,9 @@ import { RouterLink } from '@angular/router';
 import { DataStorageService } from '../services/data-storage.service';
 import { AuthService } from '../services/auth.service';
 import { Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { AppState } from '../reducers';
 
 @Component({
   selector: 'app-header',
@@ -16,10 +19,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private userSub!: Subscription;
   constructor(
     private dataStorageService: DataStorageService,
-    private authService: AuthService
+    private authService: AuthService,
+    private store :Store<AppState>
   ) {}
   ngOnInit(): void {
-    this.userSub = this.authService.user.subscribe((user) => {
+    // this.userSub = this.authService.user.subscribe((user) => {
+    this.userSub = this.store.select("auth").pipe(map(
+      authState=>authState.user
+    )).subscribe((user) => {
       // this.isAuthenticated = user ? true : false; we can use another way
       this.isAuthenticated = !!user;
     });

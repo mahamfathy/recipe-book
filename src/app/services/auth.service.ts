@@ -5,15 +5,22 @@ import { catchError, tap } from 'rxjs/operators';
 import { BehaviorSubject, throwError } from 'rxjs';
 import { User } from '../shared/models/user.model';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState } from '../reducers';
+import { Login, Logout } from '../auth/store/auth.actions';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  user = new BehaviorSubject<User>(null!);
+  // user = new BehaviorSubject<User>(null!);
   // token!: string | null; or i can use behaviorSubject
-  private tokenExpirationTime:any
-  constructor(private http: HttpClient, private router: Router) {}
+  private tokenExpirationTime: any;
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private store: Store<AppState>
+  ) {}
 
   signUp(email: string, password: string) {
     return this.http
@@ -77,9 +84,19 @@ export class AuthService {
       new Date(userData._tokenExpirationDate)
     );
     if (loadedUser.token) {
-      this.user.next(loadedUser);
-      const tokenExpirationDate =  new Date(userData._tokenExpirationDate).getTime() - new Date().getTime()
-      this.autoLogout(tokenExpirationDate)
+      // this.user.next(loadedUser);
+      this.store.dispatch(
+        new Login({
+          email: loadedUser.email,
+          userId: loadedUser.id,
+          token: loadedUser.token,
+          expirationDate: new Date(userData._tokenExpirationDate),
+        })
+      );
+      const tokenExpirationDate =
+        new Date(userData._tokenExpirationDate).getTime() -
+        new Date().getTime();
+      this.autoLogout(tokenExpirationDate);
     }
   }
 
@@ -110,25 +127,34 @@ export class AuthService {
   ) {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
     const user = new User(email, userId, token, expirationDate);
-    this.user.next(user);
-    this.autoLogout(expiresIn* 1000)
+    // this.user.next(user);
+    this.store.dispatch(
+      new Login({
+        email: email,
+        userId: userId,
+        token: token,
+        expirationDate: expirationDate,
+      })
+    );
+    this.autoLogout(expiresIn * 1000);
     localStorage.setItem('userData', JSON.stringify(user));
   }
   logout() {
-    this.user.next(null!);
+    // this.user.next(null!);
+    this.store.dispatch(new Logout());
     this.router.navigate(['/auth']);
     // localStorage.clear() we use this to clear all of the data but prefer to use removeItem
     localStorage.removeItem('userData');
     if (this.tokenExpirationTime) {
-      clearTimeout(this.tokenExpirationTime)
+      clearTimeout(this.tokenExpirationTime);
     }
-    this.tokenExpirationTime=null
+    this.tokenExpirationTime = null;
   }
-  autoLogout(expirationDate:number) {
-    console.log(expirationDate)
-   this.tokenExpirationTime=  setTimeout(() => {
+  autoLogout(expirationDate: number) {
+    console.log(expirationDate);
+    this.tokenExpirationTime = setTimeout(() => {
       this.logout();
     }, expirationDate);
-    return this.tokenExpirationTime
+    return this.tokenExpirationTime;
   }
 }

@@ -2,20 +2,20 @@ import { Action, createAction, props } from '@ngrx/store';
 import { Ingredient } from '../../shared/models/ingredients.models';
 
 export const ADD_INGREDIENT = createAction(
-  '[INGREDIENT] Add Ingredient',
+  '[Shopping List] Add Ingredient',
   props<{ ingredients: Ingredient[] }>()
 );
 export const ADD_INGREDIENTS = createAction(
-  '[INGREDIENTS] Add Ingredients',
+  '[Shopping List] Add Ingredients',
   props<{ ingredients: Ingredient[] }>()
 );
 
 export const UPDATE_INGREDIENT = createAction(
-  '[INGREDIENT] Update Ingredient',
+  '[Shopping List] Update Ingredient',
   props<{ ingredient: Ingredient }>()
 );
 export const DELETE_INGREDIENT = createAction(
-  '[INGREDIENT] Delete Ingredient',
+  '[Shopping List] Delete Ingredient',
 );
 export const START_EDIT = createAction(
   '[INGREDIENT] Start Edit',

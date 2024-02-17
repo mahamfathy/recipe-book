@@ -6,12 +6,12 @@ import {
   createSelector,
   MetaReducer,
 } from '@ngrx/store';
-import { shoppingListReducer, State as ShoppingListState } from '../shopping-list/store/shopping-list.reducers';
-import {  authReducer } from '../auth/store/auth.reducer';
-import * as AuthState from '../auth/store/auth.reducer'
+import { shoppingListReducer, State } from '../shopping-list/store/shopping-list.reducers';
+import { authReducer, AuthState } from '../auth/store/auth.reducer';
+
 export interface AppState {
-  shoppingList: ShoppingListState;
-  auth:AuthState.State
+  shoppingList: State;
+  auth:AuthState
 }
 
 export const reducers: ActionReducerMap<AppState> = {

@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { AlertComponent } from '../shared/alert/alert.component';
 import { Store } from '@ngrx/store';
 import { AppState } from '../reducers';
-import { LOGIN_START_ACTION, SIGNUP_START_ACTION } from './store/auth.actions';
+import { CLEAR_ERROR_ACTION, LOGIN_START_ACTION, SIGNUP_START_ACTION } from './store/auth.actions';
 
 @Component({
   selector: 'app-auth',
@@ -79,7 +79,8 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
   // this to make it as an alert modal
   onHandleError() {
-    this.error = null;
+    // this.error = null;
+    this.store.dispatch(CLEAR_ERROR_ACTION())
   }
   // private showErrorAlert(message: string) {
   //   // this won't work cause it's wrong in angular

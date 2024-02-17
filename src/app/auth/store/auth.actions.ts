@@ -4,7 +4,7 @@ export const LOGIN_START = '[Auth] Login Start';
 export const AUTHENTICATE_FAIL = '[Auth] Authenticate Fail';
 export const AUTHENTICATE_SUCCESS = '[Auth] Authenticate Success';
 export const SIGNUP_START = '[Auth] Signup Start';
-export const SIGNUP = '[Auth] Signup';
+export const CLEAR_ERROR = '[Auth] Clear Error';
 export const LOGOUT = '[Auth] Logout';
 
 // I used another way to implement actions
@@ -58,4 +58,8 @@ export const AUTHENTICATE_FAIL_ACTION = createAction(
   props<{
     errorMessage: string;
   }>()
+);
+export const CLEAR_ERROR_ACTION = createAction(
+  CLEAR_ERROR,
+  
 );

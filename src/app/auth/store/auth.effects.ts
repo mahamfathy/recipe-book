@@ -5,6 +5,7 @@ import {
   AUTHENTICATE_SUCCESS_ACTION,
   LOGIN_START_ACTION,
   LOGOUT,
+  LOGOUT_ACTION,
   SIGNUP_START_ACTION,
 } from './auth.actions';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
@@ -82,10 +83,10 @@ export class AuthEffects {
       })
     )
   );
-  authSuccess = createEffect(
+  authRedirect = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(AUTHENTICATE_SUCCESS_ACTION),
+        ofType(AUTHENTICATE_SUCCESS_ACTION,LOGOUT_ACTION),
         tap(() => this.router.navigate(['']))
       ),
     { dispatch: false }

@@ -44,28 +44,28 @@ export class AuthService {
         })
       );
   }
-  login(email: string, password: string) {
-    return this.http
-      .post<AuthResponseData>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB0xX7FJdLBTD1M-Ohwc6fbHDB8ygUrbWM',
-        {
-          email: email,
-          password: password,
-          returnSecureToken: true,
-        }
-      )
-      .pipe(
-        catchError(this.handleError),
-        tap((resData) => {
-          this.handleAuthentication(
-            resData.email,
-            resData.localId,
-            resData.idToken,
-            +resData.expiresIn
-          );
-        })
-      );
-  }
+  // login(email: string, password: string) {
+    // return this.http
+    //   .post<AuthResponseData>(
+    //     'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB0xX7FJdLBTD1M-Ohwc6fbHDB8ygUrbWM',
+    //     {
+    //       email: email,
+    //       password: password,
+    //       returnSecureToken: true,
+    //     }
+    //   )
+    //   .pipe(
+    //     catchError(this.handleError),
+    //     tap((resData) => {
+    //       this.handleAuthentication(
+    //         resData.email,
+    //         resData.localId,
+    //         resData.idToken,
+    //         +resData.expiresIn
+    //       );
+    //     })
+    //   );
+  // }
 
   autoLogin() {
     const userData: {
@@ -141,7 +141,7 @@ export class AuthService {
   logout() {
     // this.user.next(null!);
     this.store.dispatch(LOGOUT_ACTION());
-    this.router.navigate(['/auth']);
+    // this.router.navigate(['/auth']);
     // localStorage.clear() we use this to clear all of the data but prefer to use removeItem
     localStorage.removeItem('userData');
     if (this.tokenExpirationTime) {

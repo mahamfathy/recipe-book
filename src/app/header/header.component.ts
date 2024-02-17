@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppState } from '../reducers';
+import { LOGOUT_ACTION } from '../auth/store/auth.actions';
 
 @Component({
   selector: 'app-header',
@@ -40,7 +41,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.dataStorageService.fetchData().subscribe();
   }
   onLogout() {
-    this.authService.logout();
+    // this.authService.logout();
+    this.store.dispatch(LOGOUT_ACTION())
   }
   ngOnDestroy(): void {
     this.userSub.unsubscribe();

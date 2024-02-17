@@ -6,6 +6,7 @@ import {
   LOGIN_FAIL_ACTION,
   LOGIN_START_ACTION,
   LOGOUT,
+  SIGNUP_START_ACTION,
 } from './auth.actions';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
@@ -20,6 +21,39 @@ export class AuthEffects {
     private http: HttpClient,
     private router: Router
   ) {}
+  handleAuthentication = (
+    email: string,
+    userId: string,
+    token: string,
+    expiresIn: number
+  ) => {
+    const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
+    return LOGIN_ACTION({
+      email: email,
+      userId: userId,
+      token: token,
+      expirationDate: expirationDate,
+    });
+  };
+  handleError = (errorRes: any) => {
+    let errorMessage = 'An unknown error occured!';
+
+    if (!errorRes.error || !errorRes.error.error) {
+      return of(LOGIN_FAIL_ACTION({ errorMessage }));
+    }
+    switch (errorRes.error.error.message) {
+      case 'EMAIL_EXISTS':
+        errorMessage = 'This Email already exists!';
+        break;
+      case 'EMAIL_NOT_FOUND':
+        errorMessage = "This Email doesn't exit!";
+        break;
+      case 'INVALID_PASSWORD':
+        errorMessage = 'Invalid password, check again!';
+        break;
+    }
+    return of(LOGIN_FAIL_ACTION({ errorMessage }));
+  };
   authLogin$ = createEffect(() =>
     this.actions$.pipe(
       ofType(LOGIN_START_ACTION),
@@ -35,34 +69,15 @@ export class AuthEffects {
           )
           .pipe(
             map((resData) => {
-              const expirationDate = new Date(
-                new Date().getTime() + +resData.expiresIn * 1000
+              return this.handleAuthentication(
+                resData.email,
+                resData.localId,
+                resData.expiresIn,
+                +resData.idToken
               );
-              return LOGIN_ACTION({
-                email: resData.email,
-                userId: resData.localId,
-                token: resData.idToken,
-                expirationDate,
-              });
             }),
             catchError((errorRes) => {
-                  let errorMessage = 'An unknown error occured!';
-
-                  if (!errorRes.error || !errorRes.error.error) {
-                    return of(LOGIN_FAIL_ACTION({ errorMessage }));
-                  }
-                  switch (errorRes.error.error.message) {
-                    case 'EMAIL_EXISTS':
-                      errorMessage = 'This Email already exists!';
-                      break;
-                    case 'EMAIL_NOT_FOUND':
-                      errorMessage = "This Email doesn't exit!";
-                      break;
-                    case 'INVALID_PASSWORD':
-                      errorMessage = 'Invalid password, check again!';
-                      break;
-                  }
-                  return of(LOGIN_FAIL_ACTION({ errorMessage }));
+              return this.handleError(errorRes);
             })
           );
       })
@@ -75,5 +90,33 @@ export class AuthEffects {
         tap(() => this.router.navigate(['']))
       ),
     { dispatch: false }
+  );
+
+  authSignupStart = this.actions$.pipe(
+    ofType(SIGNUP_START_ACTION),
+    switchMap((signupAction) => {
+      return this.http
+        .post<AuthResponseData>(
+          'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB0xX7FJdLBTD1M-Ohwc6fbHDB8ygUrbWM',
+          {
+            email: signupAction.email,
+            password: signupAction.password,
+            returnSecureToken: true,
+          }
+        )
+        .pipe(
+          map((resData) => {
+            return this.handleAuthentication(
+              resData.email,
+              resData.localId,
+              resData.expiresIn,
+              +resData.idToken
+            );
+          }),
+          catchError((errorRes) => {
+            return this.handleError(errorRes);
+          })
+        );
+    })
   );
 }

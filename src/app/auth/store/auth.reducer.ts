@@ -7,6 +7,9 @@ import {
   LOGIN_FAIL_ACTION,
   LOGIN_START_ACTION,
   LOGOUT_ACTION,
+  SIGNUP,
+  SIGNUP_ACTION,
+  SIGNUP_START_ACTION,
 } from './auth.actions';
 
 const initialState: AuthState = {
@@ -36,6 +39,13 @@ export const authReducer = createReducer(
   }),
   on(LOGIN_FAIL_ACTION, (state, { errorMessage }) => {
     return { ...state, user: null, authError: errorMessage, loading: false };
+  }),
+  on(SIGNUP_ACTION, (state, { email, userId, token, expirationDate }) => {
+    const user = new User(email, userId, token, expirationDate);
+    return { ...state, user, authError: null, loading: false };
+  }),
+  on(SIGNUP_START_ACTION, (state, action) => {
+    return { ...state, authError: null, loading: true };
   })
 );
 

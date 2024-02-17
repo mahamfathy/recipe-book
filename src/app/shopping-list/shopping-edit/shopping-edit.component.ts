@@ -8,11 +8,11 @@ import { Store } from '@ngrx/store';
 import {
   ADD_INGREDIENT,
   DELETE_INGREDIENT,
-  START_EDIT,
+  // START_EDIT,
   STOP_EDIT,
   UPDATE_INGREDIENT,
 } from '../store/shopping-list.actions';
-import { Observable } from 'rxjs-compat';
+// import { Observable } from 'rxjs-compat';
 import { AppState } from '../../reducers';
 
 @Component({

@@ -6,6 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
+import { START_EDIT } from '../store/shopping-list.actions';
 
 @Component({
   selector: 'app-shopping-list',
@@ -30,7 +31,8 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     //   );
   }
   onEditItem(i: number) {
-    this.shoppingService.startEditing.next(i);
+    // this.shoppingService.startEditing.next(i);
+    this.store.dispatch(START_EDIT({index:i}))
   }
   ngOnDestroy(): void {
     // this.igChangeSubscription.unsubscribe();

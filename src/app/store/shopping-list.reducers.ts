@@ -33,15 +33,15 @@ export const shoppingListReducer = createReducer(
     ...state,
     ingredients: [...state.ingredients, ...ingredients],
   })),
-  on(UPDATE_INGREDIENT, (state, { index, ingredient }) => ({
+  on(UPDATE_INGREDIENT, (state, { ingredient }) => ({
     ...state,
     ingredients: state.ingredients.map((oldIngredient, i) =>
-      i === index ? ingredient : oldIngredient
+      i === state.edittedIngredientIndex ? ingredient : oldIngredient
     ),
   })),
-  on(DELETE_INGREDIENT, (state, { index }) => ({
+  on(DELETE_INGREDIENT, (state ) => ({
     ...state,
-    ingredients: state.ingredients.filter((_, i) => i !== index),
+    ingredients: state.ingredients.filter((_, i) => i !== state.edittedIngredientIndex),
   })),
   on(START_EDIT,(state,{index})=>({
     ...state,

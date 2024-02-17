@@ -6,7 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { START_EDIT } from '../store/shopping-list.actions';
+import { START_EDIT } from './store/shopping-list.actions';
 
 @Component({
   selector: 'app-shopping-list',

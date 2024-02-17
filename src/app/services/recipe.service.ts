@@ -4,8 +4,8 @@ import { Ingredient } from '../shared/models/ingredients.models';
 import { ShoppingListService } from './shopping-list.service';
 import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { ADD_INGREDIENTS } from '../store/shopping-list.actions';
-import { State } from '../store/shopping-list.reducers';
+import { ADD_INGREDIENTS } from '../shopping-list/store/shopping-list.actions';
+import { State } from '../shopping-list/store/shopping-list.reducers';
 
 @Injectable({
   providedIn: 'root',

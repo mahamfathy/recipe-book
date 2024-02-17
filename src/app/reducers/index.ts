@@ -6,7 +6,7 @@ import {
   createSelector,
   MetaReducer,
 } from '@ngrx/store';
-import { shoppingListReducer, State } from '../store/shopping-list.reducers';
+import { shoppingListReducer, State } from '../shopping-list/store/shopping-list.reducers';
 
 export interface AppState {
   shoppingList: State;

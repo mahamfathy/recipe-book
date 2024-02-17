@@ -1,5 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { Ingredient } from '../shared/models/ingredients.models';
+import { Ingredient } from '../../shared/models/ingredients.models';
 import {
   ADD_INGREDIENT,
   ADD_INGREDIENTS,

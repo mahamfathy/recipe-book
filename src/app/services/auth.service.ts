@@ -7,7 +7,7 @@ import { User } from '../shared/models/user.model';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../reducers';
-import { Login, Logout } from '../auth/store/auth.actions';
+import { LOGIN_ACTION, LOGOUT_ACTION } from '../auth/store/auth.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -85,8 +85,7 @@ export class AuthService {
     );
     if (loadedUser.token) {
       // this.user.next(loadedUser);
-      this.store.dispatch(
-        new Login({
+      this.store.dispatch(LOGIN_ACTION({
           email: loadedUser.email,
           userId: loadedUser.id,
           token: loadedUser.token,
@@ -128,8 +127,7 @@ export class AuthService {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
     const user = new User(email, userId, token, expirationDate);
     // this.user.next(user);
-    this.store.dispatch(
-      new Login({
+    this.store.dispatch(LOGIN_ACTION({
         email: email,
         userId: userId,
         token: token,
@@ -141,7 +139,7 @@ export class AuthService {
   }
   logout() {
     // this.user.next(null!);
-    this.store.dispatch(new Logout());
+    this.store.dispatch(LOGOUT_ACTION());
     this.router.navigate(['/auth']);
     // localStorage.clear() we use this to clear all of the data but prefer to use removeItem
     localStorage.removeItem('userData');

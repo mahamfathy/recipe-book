@@ -20,16 +20,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private dataStorageService: DataStorageService,
     private authService: AuthService,
-    private store :Store<AppState>
+    private store: Store<AppState>
   ) {}
   ngOnInit(): void {
     // this.userSub = this.authService.user.subscribe((user) => {
-    this.userSub = this.store.select("auth").pipe(map(
-      authState=>authState.user
-    )).subscribe((user) => {
-      // this.isAuthenticated = user ? true : false; we can use another way
-      this.isAuthenticated = !!user;
-    });
+    this.userSub = this.store
+      .select('auth')
+      .pipe(map((authState) => authState.user))
+      .subscribe((user) => {
+        // this.isAuthenticated = user ? true : false; we can use another way
+        this.isAuthenticated = !!user;
+      });
   }
 
   onSaveData() {
@@ -38,11 +39,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   onFetchData() {
     this.dataStorageService.fetchData().subscribe();
   }
-  onLogout(){
-    this.authService.logout()
+  onLogout() {
+    this.authService.logout();
   }
   ngOnDestroy(): void {
     this.userSub.unsubscribe();
   }
- 
 }

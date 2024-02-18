@@ -1,11 +1,3 @@
-import { Action, createAction, props } from '@ngrx/store';
-
-export const LOGIN_START = '[Auth] Login Start';
-export const AUTHENTICATE_FAIL = '[Auth] Authenticate Fail';
-export const AUTHENTICATE_SUCCESS = '[Auth] Authenticate Success';
-export const SIGNUP_START = '[Auth] Signup Start';
-export const CLEAR_ERROR = '[Auth] Clear Error';
-export const LOGOUT = '[Auth] Logout';
 
 // I used another way to implement actions
 
@@ -26,9 +18,9 @@ export const LOGOUT = '[Auth] Logout';
 // }
 
 // export type AuthActions = Login | Logout
-
+import { Action, createAction, props } from '@ngrx/store';
 export const AUTHENTICATE_SUCCESS_ACTION = createAction(
-  AUTHENTICATE_SUCCESS,
+  '[Auth] Authenticate Success',
   props<{
     email: string;
     userId: string;
@@ -36,17 +28,16 @@ export const AUTHENTICATE_SUCCESS_ACTION = createAction(
     expirationDate: Date;
   }>()
 );
-
-export const LOGOUT_ACTION = createAction(LOGOUT);
+export const LOGOUT_ACTION = createAction('[Auth] Logout');
 export const LOGIN_START_ACTION = createAction(
-  LOGIN_START,
+  '[Auth] Login Start',
   props<{
     email: string;
     password: string;
   }>()
 );
 export const SIGNUP_START_ACTION = createAction(
-  SIGNUP_START,
+  '[Auth] Signup Start',
   props<{
     email: string;
     password: string;
@@ -54,12 +45,10 @@ export const SIGNUP_START_ACTION = createAction(
 );
 
 export const AUTHENTICATE_FAIL_ACTION = createAction(
-  AUTHENTICATE_FAIL,
+  '[Auth] Authenticate Fail',
   props<{
     errorMessage: string;
   }>()
 );
-export const CLEAR_ERROR_ACTION = createAction(
-  CLEAR_ERROR,
-  
-);
+export const CLEAR_ERROR_ACTION = createAction('[Auth] Clear Error');
+export const AUTO_LOGIN_ACTION = createAction('[Auth] Auto Login');

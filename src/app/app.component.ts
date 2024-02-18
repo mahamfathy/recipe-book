@@ -5,6 +5,9 @@ import { HeaderComponent } from './header/header.component';
 import { RecipesComponent } from './recipes/recipes.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { AuthService } from './services/auth.service';
+import { Store } from '@ngrx/store';
+import { AppState } from './reducers';
+import { AUTO_LOGIN_ACTION } from './auth/store/auth.actions';
 
 @Component({
   selector: 'app-root',
@@ -21,8 +24,9 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent implements OnInit{
   title = 'recipe-book';
-  constructor(private authService:AuthService){}
+  constructor(private authService:AuthService,private store:Store<AppState>){}
   ngOnInit(): void {
-    this.authService.autoLogin()
+    // this.authService.autoLogin()
+    this.store.dispatch(AUTO_LOGIN_ACTION())
   }
 }

@@ -5,6 +5,7 @@ import { User } from '../../shared/models/user.model';
 import {
   AUTHENTICATE_FAIL_ACTION,
   AUTHENTICATE_SUCCESS_ACTION,
+  AUTO_LOGIN_ACTION,
   CLEAR_ERROR_ACTION,
   LOGIN_START_ACTION,
   LOGOUT_ACTION,
@@ -48,7 +49,8 @@ export const authReducer = createReducer(
   }),
   on(CLEAR_ERROR_ACTION,(state,action)=>{
     return {...state,authError:null}
-  })
+  }),
+ 
 );
 
 // export function authReducer(state = initialState, action: AuthActions):AuthState {

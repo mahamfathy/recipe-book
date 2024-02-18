@@ -4,7 +4,7 @@ import {
   AUTHENTICATE_FAIL_ACTION,
   AUTHENTICATE_SUCCESS_ACTION,
   LOGIN_START_ACTION,
-  LOGOUT,
+  // LOGOUT,
   LOGOUT_ACTION,
   SIGNUP_START_ACTION,
 } from './auth.actions';
@@ -13,13 +13,19 @@ import { HttpClient } from '@angular/common/http';
 import { of, throwError } from 'rxjs';
 import { AuthResponseData } from '../../shared/models/auth-response-data.model';
 import { Router } from '@angular/router';
+import { User } from '../../shared/models/user.model';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../reducers';
+import { AuthService } from '../../services/auth.service';
 // import * as authActions from './auth.actions'
 @Injectable()
 export class AuthEffects {
   constructor(
     private actions$: Actions,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    // private store: Store<AppState>,
+    private authService: AuthService
   ) {}
   handleAuthentication = (
     email: string,
@@ -28,6 +34,8 @@ export class AuthEffects {
     expiresIn: number
   ) => {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
+    const user = new User(email, userId, token, expirationDate);
+    localStorage.setItem('userData', JSON.stringify(user));
     return AUTHENTICATE_SUCCESS_ACTION({
       email: email,
       userId: userId,
@@ -68,6 +76,9 @@ export class AuthEffects {
             }
           )
           .pipe(
+            tap((resData) => {
+              this.authService.setLogoutTimer(+resData.expiresIn * 1000);
+            }),
             map((resData) => {
               return this.handleAuthentication(
                 resData.email,
@@ -83,11 +94,66 @@ export class AuthEffects {
       })
     )
   );
+
+  autoLogin = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AUTHENTICATE_SUCCESS_ACTION),
+      map(() => {
+        const userData: {
+          email: string;
+          userId: string;
+          _token: string;
+          _tokenExpirationDate: Date;
+        } = JSON.parse(localStorage.getItem('userData')!);
+        if (!userData) {
+          return { type: 'NO_ACTION' }; // Return a dummy action if no user data is found
+        }
+        const loadedUser = new User(
+          userData.email,
+          userData.userId,
+          userData._token,
+          new Date(userData._tokenExpirationDate)
+        );
+        if (loadedUser.token) {
+          const tokenExpirationDate =
+            new Date(userData._tokenExpirationDate).getTime() -
+            new Date().getTime();
+          this.authService.setLogoutTimer(tokenExpirationDate);
+          return AUTHENTICATE_SUCCESS_ACTION({
+            email: loadedUser.email,
+            userId: loadedUser.id,
+            token: loadedUser.token,
+            expirationDate: new Date(userData._tokenExpirationDate),
+          });
+        }
+        return { type: 'NO_ACTION' }; // Return a dummy action if token is not found
+      }),
+      catchError(() => {
+        return of(
+          AUTHENTICATE_FAIL_ACTION({
+            errorMessage: 'An error occurred during auto-login.',
+          })
+        );
+      })
+    )
+  );
+  authLogout = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(LOGOUT_ACTION),
+        tap(() => {
+          this.authService.clearLogoutTimer();
+          localStorage.removeItem('userData');
+          this.router.navigate(['auth']);
+        })
+      ),
+    { dispatch: false }
+  );
   authRedirect = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(AUTHENTICATE_SUCCESS_ACTION,LOGOUT_ACTION),
-        tap(() => this.router.navigate(['']))
+        ofType(AUTHENTICATE_SUCCESS_ACTION),
+        tap(() => this.router.navigate(['/']))
       ),
     { dispatch: false }
   );
@@ -105,6 +171,9 @@ export class AuthEffects {
           }
         )
         .pipe(
+          tap((resData) => {
+            this.authService.setLogoutTimer(+resData.expiresIn * 1000);
+          }),
           map((resData) => {
             return this.handleAuthentication(
               resData.email,

@@ -1,15 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { AuthService } from '../services/auth.service';
+// import { AuthService } from '../services/auth.service';
 import { LoadingSpinnerComponent } from '../shared/loading-spinner/loading-spinner.component';
 import { Observable, Subscription } from 'rxjs';
-import { AuthResponseData } from '../shared/models/auth-response-data.model';
-import { Router } from '@angular/router';
+// import { AuthResponseData } from '../shared/models/auth-response-data.model';
+// import { Router } from '@angular/router';
 import { AlertComponent } from '../shared/alert/alert.component';
 import { Store } from '@ngrx/store';
 import { AppState } from '../reducers';
-import { CLEAR_ERROR_ACTION, LOGIN_START_ACTION, SIGNUP_START_ACTION } from './store/auth.actions';
+import {
+  CLEAR_ERROR_ACTION,
+  LOGIN_START_ACTION,
+  SIGNUP_START_ACTION,
+} from './store/auth.actions';
 
 @Component({
   selector: 'app-auth',
@@ -31,7 +35,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
- this.storeSub=   this.store.select('auth').subscribe((authData) => {
+    this.storeSub = this.store.select('auth').subscribe((authData) => {
       this.isLoading = authData.loading;
       this.error = authData.authError;
     });
@@ -80,7 +84,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   // this to make it as an alert modal
   onHandleError() {
     // this.error = null;
-    this.store.dispatch(CLEAR_ERROR_ACTION())
+    this.store.dispatch(CLEAR_ERROR_ACTION());
   }
   // private showErrorAlert(message: string) {
   //   // this won't work cause it's wrong in angular
@@ -91,8 +95,7 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.storeSub) {
-      this.storeSub.unsubscribe()
-      
+      this.storeSub.unsubscribe();
     }
   }
 }
